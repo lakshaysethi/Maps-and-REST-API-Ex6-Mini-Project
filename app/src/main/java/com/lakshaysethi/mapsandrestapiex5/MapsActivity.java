@@ -36,6 +36,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     Button findRestaurantsBtn;
     FusedLocationProviderClient locationClient;
+     double lat;
+     double  lng ;
+     LatLng userLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,30 +84,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     @NonNull
     private LatLng getUserLocation() {
-        final double[] lat = new double[1];
-        final double[] lng = new double[1];
-        final LatLng[] userLocation = new LatLng[1];
+
         if (permissionGranted()){
             Task<Location> userLocationTask = locationClient.getLastLocation();
-            userLocationTask.addOnCompleteListener(new OnCompleteListener<Location>() {
+
+            userLocationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
-                public void onComplete(@NonNull Task<Location> task) {
-//                if (lastUserLocation !=null){
-                    lastUserLocation = task.getResult();
-                    assert lastUserLocation.getLatitude() != 0;
-                    lat[0] = lastUserLocation.getLatitude();
-                    lng[0] = lastUserLocation.getLongitude();
-                    userLocation[0] = new LatLng(lat[0], lng[0]);
-                    placeMarkerOnMap(userLocation[0]);
-//                }else{
-//                    Toast.makeText(MapsActivity.this, "Could Not get Location! do you have permission? Is location ON?", Toast.LENGTH_SHORT).show();
-//                }
+                public void onSuccess(Location location) {
+                    lastUserLocation = location;
+                    if(lastUserLocation!=null){
+                        if (lastUserLocation.getLatitude() !=0) {
+                            lat = lastUserLocation.getLatitude();
+                            lng = lastUserLocation.getLongitude();
+                            userLocation = new LatLng(lat, lng);
+                            placeMarkerOnMap(userLocation);
+                        }
+                    }else{
+                        Toast.makeText(MapsActivity.this, "Could Not get Location, Please wait... Is location ON?", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
-        }else{
-            Toast.makeText(this, "You have not granted Location Permission! please grant it :)", Toast.LENGTH_SHORT).show();
+
+
         }
-        return userLocation[0];
+        return userLocation;
     }
 
     private void placeMarkerOnMap(LatLng userLocation) {
