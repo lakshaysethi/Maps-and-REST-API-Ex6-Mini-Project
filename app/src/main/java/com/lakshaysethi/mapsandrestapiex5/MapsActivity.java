@@ -158,7 +158,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void findRestaurantsNearUserLocation(double lat,double lng) {
 //        APICallString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?location="+lat+","+lng+"&radius=500&type=restaurant&fields=geometry,name&key="+GOOGLEAPIKEY;
  //       APICallString ="https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=burger&inputtype=textquery&fields=name,geometry/location&locationbias=circle:1500@"+lat+","+lng+"&key="+GOOGLEAPIKEY;
-        APICallString = "https://developers.zomato.com/api/v2.1/search?radius=500&lat="+lat+"&lon="+lng;
+        APICallString = "https://developers.zomato.com/api/v2.1/search?count=15&radius=500.0&sort=real_distance&lat="+lat+"&lon="+lng;
+//        https://developers.zomato.com/api/v2.1/search?count=1&lat=-36.85&lon=174.76&radius=500.0&sort=real_distance
         RequestQueue requestQ  = Volley.newRequestQueue(this.getApplicationContext());
         Response.Listener repListener=new Response.Listener<JSONObject>() {
             @Override
