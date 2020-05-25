@@ -48,6 +48,8 @@ import java.util.concurrent.Executor;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final int LOCATION_REQUEST_CODE = 1234;
+    //private static final String GOOGLEAPIKEY = "AIzaSyAqqXcZJ4J4fIkA8Kx4jUDuICjDgvGWdEI";
+    private static final String ZOMATOAPIKEY = "f88bce1ea6d25bae45cf4e4e08219694";
     Location lastUserLocation;
     private GoogleMap mMap;
     Button findRestaurantsBtn;
@@ -55,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      double lat;
      double  lng ;
      LatLng userLocation;
+     String APICallString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
