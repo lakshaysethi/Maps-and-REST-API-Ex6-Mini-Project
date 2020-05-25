@@ -135,7 +135,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void placeMarkerOnMap(LatLng userLocation,String title) {
         MarkerOptions markerOptions = new MarkerOptions();
-        mMap.addMarker(markerOptions.position(userLocation).title(title));
+        Marker marker = mMap.addMarker(markerOptions.position(userLocation).title(title));
+        if (title.equalsIgnoreCase("You")){
+            marker.setIcon((BitmapDescriptorFactory.defaultMarker(100)));
+        }
 
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
