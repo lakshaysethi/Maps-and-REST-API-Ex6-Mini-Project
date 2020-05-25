@@ -57,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         findRestaurantsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMap.clear();
                 getUserLocation();
                 findRestaurantsNearUserLocation();
             }
@@ -97,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             lat = lastUserLocation.getLatitude();
                             lng = lastUserLocation.getLongitude();
                             userLocation = new LatLng(lat, lng);
-                            placeMarkerOnMap(userLocation);
+                            placeMarkerOnMap(userLocation,"You");
                         }
                     }else{
                         Toast.makeText(MapsActivity.this, "Could Not get Location, Please wait... Is location ON?", Toast.LENGTH_SHORT).show();
@@ -110,9 +111,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return userLocation;
     }
 
-    private void placeMarkerOnMap(LatLng userLocation) {
+    private void placeMarkerOnMap(LatLng userLocation,String title) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        mMap.addMarker(markerOptions.position(userLocation).title(title));
 
-        mMap.addMarker(new MarkerOptions().position(userLocation).title("user"));
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,15));
     }
