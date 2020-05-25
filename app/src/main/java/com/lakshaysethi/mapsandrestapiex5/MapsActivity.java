@@ -77,8 +77,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 mMap.clear();
-                getUserLocation();
-                findRestaurantsNearUserLocation();
+                userLocation= getUserLocation();
+                if (userLocation!=null){
+                    findRestaurantsNearUserLocation(userLocation.latitude,userLocation.longitude);
+
+                }
             }
         });
     }
@@ -140,10 +143,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private boolean permissionGranted() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)!= PackageManager.PERMISSION_GRANTED){
             Toast.makeText(this, "LOCATION PERMISSION NOT GRANTED PLEASE GRANT LOCATION PERMISSION", Toast.LENGTH_SHORT).show();
             //ask for permission
             ActivityCompat.requestPermissions(this,new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },LOCATION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this,new String[]{ Manifest.permission.INTERNET },LOCATION_REQUEST_CODE+1);
             return false;
         }else{
             return true;
