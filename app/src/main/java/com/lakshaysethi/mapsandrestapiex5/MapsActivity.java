@@ -1,8 +1,10 @@
 package com.lakshaysethi.mapsandrestapiex5;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +24,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }else{
+            Toast.makeText(this, "Can not load map", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -40,8 +46,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+        LatLng userLocation = getUserLocation();
+        placeMarkerOnMap(userLocation);
+
+    }
+    @NonNull
+    private LatLng getUserLocation() {
+
+        return null;
+    }
+
+    private void placeMarkerOnMap(LatLng userLocation) {
+
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("user"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
     }
 }
