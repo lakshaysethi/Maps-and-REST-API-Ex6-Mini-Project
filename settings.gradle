@@ -1,0 +1,2 @@
+rootProject.name='Maps and REST  API Ex5'
+include ':app'
