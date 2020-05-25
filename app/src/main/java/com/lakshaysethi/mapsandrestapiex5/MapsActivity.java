@@ -28,8 +28,11 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.concurrent.Executor;
 
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private static final int LOCATION_REQUEST_CODE = 1234;
+    Location lastUserLocation;
     private GoogleMap mMap;
-
+    FusedLocationProviderClient locationClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ import java.util.concurrent.Executor;
         }else{
             Toast.makeText(this, "Can not load map", Toast.LENGTH_SHORT).show();
         }
+        locationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
 
