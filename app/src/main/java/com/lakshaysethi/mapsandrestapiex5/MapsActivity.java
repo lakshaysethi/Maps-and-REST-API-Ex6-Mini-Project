@@ -131,7 +131,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void findRestaurantsNearUserLocation() {
+    private void findRestaurantsNearUserLocation(double lat,double lng) {
+//        APICallString = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?location="+lat+","+lng+"&radius=500&type=restaurant&fields=geometry,name&key="+GOOGLEAPIKEY;
+ //       APICallString ="https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=burger&inputtype=textquery&fields=name,geometry/location&locationbias=circle:1500@"+lat+","+lng+"&key="+GOOGLEAPIKEY;
+        APICallString = "https://developers.zomato.com/api/v2.1/search?radius=500&lat="+lat+"&lon="+lng;
+        RequestQueue requestQ  = Volley.newRequestQueue(this.getApplicationContext());
+        Response.Listener repListener=new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+               Log.d("mytag","response from zomato"+response.toString());
+                try {
+                    JSONArray restaurantArray = (JSONArray) response.get("restaurants");
+                    for(int i =0;i<restaurantArray.length(); i++){
+                        JSONObject restaurant = restaurantArray.getJSONObject(i).getJSONObject("restaurant");
+                        String restaurantname = restaurant.get("name").toString();
+                        JSONObject restaurantLoc =  restaurant.getJSONObject("location");
+                        Double restLat = Double.parseDouble(restaurantLoc.get("latitude").toString());
+                        Double restLng = Double.parseDouble(restaurantLoc.get("longitude").toString());
+                        LatLng restlatlng = new LatLng(restLat,restLng);
+                        placeMarkerOnMap(restlatlng,restaurantname);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("err",error.toString());
+            }
+        };
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, APICallString, null, repListener, errorListener){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("user-key", "f88bce1ea6d25bae45cf4e4e08219694");
+                return headers;
+            }
+        };
+        requestQ.add(req);
     }
 
 }
