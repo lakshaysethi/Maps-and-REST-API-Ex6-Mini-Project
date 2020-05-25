@@ -62,4 +62,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(userLocation).title("user"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
     }
+
+    private boolean permissionGranted() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(this, "LOCATION PERMISSION NOT GRANTED PLEASE GRANT LOCATION PERMISSION", Toast.LENGTH_SHORT).show();
+            //ask for permission
+            ActivityCompat.requestPermissions(this,new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },LOCATION_REQUEST_CODE);
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
