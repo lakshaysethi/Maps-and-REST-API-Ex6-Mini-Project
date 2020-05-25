@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int LOCATION_REQUEST_CODE = 1234;
     Location lastUserLocation;
     private GoogleMap mMap;
+    Button findRestaurantsBtn;
     FusedLocationProviderClient locationClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "Can not load map", Toast.LENGTH_SHORT).show();
         }
         locationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        findRestaurantsBtn = findViewById(R.id.findRestaurantsNearMeBtn);
+        findRestaurantsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getUserLocation();
+                findRestaurantsNearUserLocation();
+            }
+        });
     }
 
 
@@ -112,4 +124,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return true;
         }
     }
+
+    private void findRestaurantsNearUserLocation() {
+    }
+
 }

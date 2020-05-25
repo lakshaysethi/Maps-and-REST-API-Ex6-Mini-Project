@@ -9,7 +9,7 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/findRestaurantsNearMeBtn"
         android:layout_width="148dp"
         android:layout_height="69dp"
         android:text="Find Restaurants near me"
